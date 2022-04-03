@@ -38,7 +38,10 @@ def getRank():
     rule = r'Rank： (.*?)\n'
     rank = re.findall(rule, r.text)[0]
     return rank
-
+    
+def writeRank(getrank):
+    with open("edurank.txt", mode='w+', encoding='utf-8') as ff:
+        ff.write(getrank)
 
 getrank=getRank()
 
@@ -47,10 +50,10 @@ if os.path.exists('edurank.txt'):
         rank = f.read()
     if(getrank!=rank and rank!=''):
         sendEmail(getrank)
+        writeRank(getrank)
         print('Rank Update:'+str(getrank))
     else:
         print('Not updated')
 else:
-    with open("edurank.txt", mode='w+', encoding='utf-8') as ff:
-        ff.write(getrank)
-        print('newfile')
+    writeRank(getrank)
+    print('newfile')
